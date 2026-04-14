@@ -1,0 +1,150 @@
+# SmartRecruiter配置文件示例
+# 复制此文件为 config.yaml 并填写实际配置
+
+# LinkedIn配置
+linkedin:
+  # 方式1: 用户名密码登录
+  username: "your_linkedin_email@example.com"
+  password: "your_linkedin_password"
+  
+  # 方式2: Cookie文件（推荐，避免重复登录）
+  cookie_path: "cookies/linkedin_cookies.json"
+  
+  # 浏览器自动化设置
+  headless: false  # 是否无头模式
+  timeout: 30      # 超时时间（秒）
+  
+  # 代理设置（可选）
+  proxy:
+    enabled: false
+    http: "http://proxy.example.com:8080"
+    https: "http://proxy.example.com:8080"
+
+# 搜索配置
+search:
+  # 默认搜索限制
+  default_limit: 50
+  
+  # 热门地点
+  locations:
+    - "北京"
+    - "上海"
+    - "深圳"
+    - "广州"
+    - "杭州"
+    - "南京"
+    - "成都"
+    - "武汉"
+    - "西安"
+    - "苏州"
+  
+  # 经验级别
+  experience_levels:
+    - "Entry"     # 初级（0-2年）
+    - "Mid"       # 中级（3-5年）
+    - "Senior"    # 高级（5+年）
+    - "Lead"      # 主管
+    - "Manager"   # 经理
+    - "Director"  # 总监
+    - "VP"        # 副总裁
+    - "C-Level"   # 高管
+  
+  # 热门技能关键词
+  common_skills:
+    - "Python"
+    - "Java"
+    - "JavaScript"
+    - "C++"
+    - "Go"
+    - "Rust"
+    - "React"
+    - "Vue"
+    - "Angular"
+    - "Node.js"
+    - "Spring"
+    - "Django"
+    - "Flask"
+    - "FastAPI"
+    - "MySQL"
+    - "PostgreSQL"
+    - "MongoDB"
+    - "Redis"
+    - "Docker"
+    - "Kubernetes"
+    - "AWS"
+    - "Azure"
+    - "GCP"
+    - "机器学习"
+    - "深度学习"
+    - "数据分析"
+    - "产品经理"
+    - "UI设计"
+    - "UX设计"
+    - "运营"
+
+# 匹配算法配置
+matching:
+  # 权重配置
+  weights:
+    skills: 0.5      # 技能匹配权重
+    experience: 0.3  # 经验匹配权重
+    location: 0.2    # 地点匹配权重
+  
+  # 技能匹配设置
+  skills:
+    min_match_percentage: 0.3  # 最小匹配百分比（30%）
+    exact_match_bonus: 1.2     # 精确匹配奖励系数
+  
+  # 经验匹配设置
+  experience:
+    years_tolerance: 0.2       # 经验年限容差（20%）
+    level_multipliers:
+      Entry: 0.8
+      Mid: 1.0
+      Senior: 1.2
+      Lead: 1.3
+      Manager: 1.4
+      Director: 1.5
+      "VP": 1.6
+      "C-Level": 1.8
+  
+  # 地点匹配设置
+  location:
+    same_city: 1.0       # 同城市
+    same_province: 0.8   # 同省份
+    remote_ok: 0.9       # 接受远程工作
+    willing_to_relocate: 0.7  # 愿意搬迁
+
+# 界面配置
+ui:
+  # 显示设置
+  results_per_page: 10
+  show_avatars: true
+  show_score_details: true
+  
+  # 颜色主题
+  theme:
+    primary_color: "#2563eb"   # 主色调
+    secondary_color: "#7c3aed" # 次要色调
+    accent_color: "#f59e0b"    # 强调色
+  
+  # 语言设置
+  language: "zh"  # zh: 中文, en: 英文
+
+# 系统配置
+system:
+  # 日志设置
+  log_level: "INFO"  # DEBUG, INFO, WARNING, ERROR
+  log_file: "logs/smartrecruiter.log"
+  
+  # 缓存设置
+  cache_enabled: true
+  cache_ttl: 3600  # 缓存有效期（秒）
+  
+  # 数据保存
+  save_results: true
+  results_dir: "results"
+  
+  # 性能设置
+  max_workers: 4     # 最大工作线程数
+  request_delay: 1.0  # 请求延迟（秒，避免被封）
