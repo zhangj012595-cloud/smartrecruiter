@@ -14,7 +14,7 @@ import logging
 
 # 导入项目模块
 from channels import ChannelManager
-from matcher import SimpleMatcher
+from matcher_simple import SimpleTestMatcher as SimpleMatcher
 
 # 设置页面配置
 st.set_page_config(
@@ -308,19 +308,25 @@ def show_search_tab():
         return
     
     # 搜索条件
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
+        # 渠道选择
+        channel_options = st.session_state.channel_manager.list_channels()
+        selected_channel = st.selectbox("数据源", channel_options, index=0)
+        st.caption(f"当前使用: {selected_channel}")
+    
+    with col2:
         # 地点选择
         locations = st.session_state.config.get('search', {}).get('locations', [])
         selected_location = st.selectbox("工作地点", ["不限"] + locations)
     
-    with col2:
+    with col3:
         # 经验级别
         experience_levels = st.session_state.config.get('search', {}).get('experience_levels', [])
         selected_experience = st.selectbox("经验级别", ["不限"] + experience_levels)
     
-    with col3:
+    with col4:
         # 搜索数量
         default_limit = st.session_state.config.get('search', {}).get('default_limit', 50)
         search_limit = st.number_input("搜索数量", min_value=10, max_value=200, value=default_limit)
@@ -337,10 +343,10 @@ def show_search_tab():
         }
         
         # 执行搜索
-        with st.spinner(f"正在搜索LinkedIn候选人..."):
+        with st.spinner(f"正在搜索{selected_channel}候选人..."):
             try:
                 candidates = st.session_state.channel_manager.search(
-                    "linkedin", 
+                    selected_channel, 
                     query, 
                     search_limit
                 )

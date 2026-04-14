@@ -21,10 +21,14 @@ class ChannelManager:
         channels = {}
         channel_dir = os.path.dirname(__file__)
         
+        # 默认包含模拟渠道
+        channels['mock_linkedin'] = "channels.mock_linkedin"
+        
+        # 发现其他渠道
         for file in os.listdir(channel_dir):
             if file.endswith('.py') and not file.startswith('_'):
                 channel_name = file[:-3]  # 移除.py
-                if channel_name not in ['base', '__init__']:
+                if channel_name not in ['base', '__init__', 'mock_linkedin']:
                     channels[channel_name] = f"channels.{channel_name}"
         
         return channels
