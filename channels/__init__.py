@@ -1,36 +1,47 @@
 """
 渠道系统管理器
-简化版本，专注Web应用
+支持多种招聘渠道：LinkedIn、GitHub等
 """
 
 import importlib
 import os
+import logging
 from typing import Dict, Any, List, Optional
+
+# 设置日志
+logger = logging.getLogger(__name__)
 
 
 class ChannelManager:
-    """简化渠道管理器"""
+    """渠道管理器"""
     
     def __init__(self, config: Dict[str, Any] = None):
         self.config = config or {}
         self.channels = {}
         self.available_channels = self._discover_channels()
+        logger.info(f"初始化渠道管理器，发现 {len(self.available_channels)} 个渠道")
     
     def _discover_channels(self) -> Dict[str, str]:
         """发现可用的渠道"""
         channels = {}
         channel_dir = os.path.dirname(__file__)
         
-        # 默认包含模拟渠道
-        channels['mock_linkedin'] = "channels.mock_linkedin"
+        # 默认包含的渠道
+        default_channels = {
+            'mock_linkedin': "channels.mock_linkedin",
+            'linkedin': "channels.linkedin",
+            'github': "channels.github"  # 新增GitHub渠道
+        }
         
-        # 发现其他渠道
+        # 发现其他渠道模块
         for file in os.listdir(channel_dir):
             if file.endswith('.py') and not file.startswith('_'):
                 channel_name = file[:-3]  # 移除.py
-                if channel_name not in ['base', '__init__', 'mock_linkedin']:
+                if channel_name not in default_channels:
                     channels[channel_name] = f"channels.{channel_name}"
         
+        # 合并渠道
+        channels.update(default_channels)
         return channels
     
     def load_channel(self, channel_name: str) -> Any:
